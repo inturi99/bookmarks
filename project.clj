@@ -19,8 +19,15 @@
                   [reagent "0.5.1"]]
 
   :plugins [[lein-ring "0.8.13"]
-                           [migratus-lein "0.1.7"]]
+            [migratus-lein "0.1.7"]]
   :ring {:handler bookmarks.handler/app}
+  :migratus {:store :database
+             :migration-dir "migrations/"
+             :db {:classname "org.postgresql.Driver"
+                  :subprotocol "postgresql"
+                  :subname "//localhost:5432/bookmarks"
+                  :user "postgres"
+                  :password "Design_20"}}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring-mock "0.1.5"]]}})

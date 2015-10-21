@@ -21,6 +21,7 @@
   :plugins [[lein-ring "0.8.13"]
             [migratus-lein "0.1.7"]
             [lein-cljsbuild "1.0.4"]]
+  :source-paths ["src"]
   :main bookmarks.core
   :ring {:handler bookmarks.handler/app}
   :migratus {:store :database
@@ -35,7 +36,7 @@
                         [ring-mock "0.1.5"]]}}
   :cljsbuild {:builds
               [{:id "app"
-                :source-paths ["src"]
+                :source-paths ["src_cljs"]
                 :compiler {:output-to "resources/public/js/app.js"
                            :output-dir "resources/public/js/out"
                            :source-map true

@@ -6,12 +6,19 @@
    [ring.middleware.json :as ring-json]
    [ring.util.response	:as rr]
    [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-   [bookmarks.db.core :as db])
+   [compojure.response :refer [render]]
+   [clojure.java.io :as io])
   (:gen-class))
 
 
+(defn home
+  ""
+  [req]
+  (render (io/resource "index.html") req))
+
+
 (defroutes app-routes
-  (GET "/" [] "welcome to home page")
+  (GET "/" [] home)
   (route/resources "/static")
   (route/not-found "<h1>Page not found</h1>"))
 

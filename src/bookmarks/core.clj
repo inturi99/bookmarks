@@ -1,6 +1,7 @@
 (ns bookmarks.core
   (:require
    [compojure.core :refer :all]
+   [bookmarks.db.core :as db]
    [compojure.route :as route]
    [ring.adapter.jetty :as jetty]
    [ring.middleware.json :as ring-json]
@@ -17,8 +18,10 @@
   (render (io/resource "index.html") req))
 
 
+
 (defroutes app-routes
   (GET "/" [] home)
+  (GET "/bookmarks" [] (rr/content-type (rr/response  (db/get-bookmarks)) "application/json; charset=utf-8"))
   (route/resources "/static")
   (route/not-found "<h1>Page not found</h1>"))
 

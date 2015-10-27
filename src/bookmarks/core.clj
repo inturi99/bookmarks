@@ -28,6 +28,14 @@
        (rr/content-type
         (rr/response  (db/get-bookmarks-by-title {:title title}))
         "application/json; charset=utf-8"))
+
+  (POST "/bookmark" {body :body}
+        (let [{t "title" u "url"
+               d "description"} body]
+          (rr/response (db/create-bookmark
+                        {:title t :url u
+                         :description d}))))
+
   (route/resources "/static")
   (route/not-found "<h1>Page not found</h1>"))
 

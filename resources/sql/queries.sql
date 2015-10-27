@@ -6,3 +6,9 @@ SELECT * from bookmarks
 -- search by title
 SELECT * from bookmarks
 WHERE title = :title
+
+-- name: create-bookmark
+InSERT INTO bookmarks
+    (title,url,description)
+    VALUES (:title,:url,:description)
+    RETURNING title,url,description

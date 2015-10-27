@@ -21,7 +21,13 @@
 
 (defroutes app-routes
   (GET "/" [] home)
-  (GET "/bookmarks" [] (rr/content-type (rr/response  (db/get-bookmarks)) "application/json; charset=utf-8"))
+  (GET "/bookmarks" [] (rr/content-type
+                        (rr/response  (db/get-bookmarks))
+                        "application/json; charset=utf-8"))
+  (GET "/bookmarks/:title" [title]
+       (rr/content-type
+        (rr/response  (db/get-bookmarks-by-title {:title title}))
+        "application/json; charset=utf-8"))
   (route/resources "/static")
   (route/not-found "<h1>Page not found</h1>"))
 

@@ -3,7 +3,9 @@
   (:require [goog.events :as events]
             [secretary.core :as secretary]
             [goog.net.XhrIo :as xhr]
-            [reagent.core :as r])
+            [reagent.core :as r]
+            [bookmarks.helpers :as he]
+            [bookmarks.createbookmarks :as cb])
   (:import goog.History))
 
 
@@ -46,7 +48,7 @@
      (for [bm bookmarks]
        [:tr
         [:td (.-title bm)]
-        [:td (url-format (.-url bm) (.-title bm))]
+        [:td (he/url-format (.-url bm) (.-title bm))]
         [:td (.-description bm)]])]]])
 
 
@@ -55,6 +57,9 @@
                 (r/render [render-bookmarks (getdata json)]
                           (.-body js/document)))]
     (http-get "http://localhost:8090/bookmarks" onres)))
+
+(defroute bookmark-path "/addbookmark" []
+  (r/render [cb/page](.-body js/document)))
 
 (defroute "*" []
   (js/alert "<h1>Not Found</h1>"))

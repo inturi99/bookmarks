@@ -90,8 +90,10 @@
 
 (defn get-bookmark-formdata []
   { :title (getinputvalue "title")
-    :url (getinputvalue "url")
-    :description (getinputvalue "desc")})
+   :url (getinputvalue "url")
+   :tag (getinputvalue "tags")
+   :description (getinputvalue "desc")
+   } )
 
 
 
@@ -102,7 +104,7 @@
 
 (defn page [body]
   (fn []
-    [:div
+    [:div.container
      [:div.padding]
      [:div.page-header [:h1 "Book Marks"]]
      [bookmark-template]

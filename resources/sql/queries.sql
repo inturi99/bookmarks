@@ -20,7 +20,7 @@ InSERT INTO bookmarks
 
 -- name: get-tag-by-name
 SELECT * from tags
-WHERE tagname = :tagname
+WHERE lower(tagname) LIKE ('%' || lower(:tagname) || '%')
 
 -- name: create-tag
 INSERT INTO tags

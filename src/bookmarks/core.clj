@@ -21,6 +21,7 @@
 (defn get-tag [tagname]
   (db/get-tag-by-name {:tagname tagname}))
 
+(def content-type  "application/json; charset=utf-8")
 
 (defn insert-tag [tag]
   (db/create-tag tag))
@@ -55,6 +56,10 @@
                                  :description d} ta)
                                :tag ta))
            "application/json; charset=utf-8")))
+  (GET "/tag/:tagname" [tagname]
+       (rr/content-type
+        (rr/response (get-tag tagname))
+        content-type))
   (route/resources "/static")
   (route/not-found "<h1>Page not found</h1>"))
 

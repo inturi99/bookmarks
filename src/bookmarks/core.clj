@@ -18,6 +18,22 @@
   (render (io/resource "index.html") req))
 
 
+(defn get-tag [tagname]
+  (db/get-tag-by-name {:tagname tagname}))
+
+
+(defn insert-tag [tag]
+  (db/create-tag tag))
+
+(defn insert-bookmark [bookmark tagname]
+  (let [tag (first (get-tag tagname))
+        tagid (cond (nil? tag) (:id (first (insert-tag {:tagname tagname})))
+                    :else (:id tag))
+        dbbm (first (db/create-bookmark bookmark))]
+    (db/create-bookmark-tag {:bookmarkid (:id dbbm)
+                             :tagid tagid})
+    dbbm))
+
 
 (defroutes app-routes
   (GET "/" [] home)
@@ -31,11 +47,14 @@
 
   (POST "/bookmark" {body :body}
         (let [{t "title" u "url"
-               d "description"} body]
-          (rr/response (db/create-bookmark
-                        {:title t :url u
-                         :description d}))))
-
+               d "description"
+               ta "tag"} body]
+          (rr/content-type
+           (rr/response (assoc (insert-bookmark
+                                {:title t :url u
+                                 :description d} ta)
+                               :tag ta))
+           "application/json; charset=utf-8")))
   (route/resources "/static")
   (route/not-found "<h1>Page not found</h1>"))
 

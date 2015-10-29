@@ -1,10 +1,15 @@
 -- name: get-bookmarks
 -- get all book marks.
-SELECT * from bookmarks
+ SELECT id,title,url,description,(select t.tagname from bookmarks_tags bmt
+ INNER JOIN tags t ON t.id = bmt.tags_id
+ WHERE bookmarks_id = b.id) AS tag
+ FROM bookmarks b
 
 -- name: get-bookmarks-by-title
 -- search by title
-SELECT * from bookmarks
+SELECT *,(select t.tagname from bookmarks_tags bmt
+INNER JOIN tags t ON t.id = bmt.tags_id
+WHERE bookmarks_id = b.id) AS tag from bookmarks b
 WHERE title = :title
 
 -- name: create-bookmark

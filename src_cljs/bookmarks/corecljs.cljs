@@ -56,13 +56,15 @@
      [:tr
       [:th "title"]
       [:th "url"]
-      [:th "description"]]]
+      [:th "description"]
+      [:th "tag"]]]
     [:tbody
      (for [bm bookmarks]
        [:tr
         [:td (.-title bm)]
         [:td (he/url-format (.-url bm) (.-title bm))]
-        [:td (.-description bm)]])]]])
+        [:td (.-description bm)]
+        [:td (if (nil? (.-tag bm)) "" (.-tag bm))]])]]])
 
 (defn row [label input]
   [:div.row

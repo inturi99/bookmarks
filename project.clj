@@ -37,7 +37,7 @@
                         [ring-mock "0.1.5"]]}}
   :cljsbuild {:builds
               [{:id "app"
-                :source-paths ["src_cljs"]
+                :source-paths ["src_cljs/"]
                 :compiler {:output-to "resources/public/js/app.js"
                            :output-dir "resources/public/js/out"
                            :source-map true

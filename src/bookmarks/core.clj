@@ -26,6 +26,9 @@
 (defn insert-tag [tag]
   (db/create-tag tag))
 
+(defn search-tag [sstring]
+  (db/search-tag {:tagname sstring}))
+
 (defn insert-bookmark [bookmark tagname]
   (let [tag (first (get-tag tagname))
         tagid (cond (nil? tag) (:id (first (insert-tag {:tagname tagname})))
@@ -56,9 +59,9 @@
                                  :description d} ta)
                                :tag ta))
            "application/json; charset=utf-8")))
-  (GET "/tag/:tagname" [tagname]
+  (GET "/tag/search/:tagname" [tagname]
        (rr/content-type
-        (rr/response (get-tag tagname))
+        (rr/response (search-tag tagname))
         content-type))
   (route/resources "/static")
   (route/not-found "<h1>Page not found</h1>"))

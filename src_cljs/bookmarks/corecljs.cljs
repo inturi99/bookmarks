@@ -76,15 +76,37 @@
     [:input {:field :radio :name name :value value}]
     label]])
 
-(defn input [label type id]
-  (row label [:input.form-control {:type type :id id}]))
+(defn aggre-str [v]
+  (reduce (fn [acc t] (conj acc (.-tagname t) ))
+                [] v))
 
+(defn on-change [event]
+  (let [ele (.getElementById js/document "tags")
+        eval (.-value ele)
+        onresp (fn [json]
+                 ;; (let [dt  (aggre-str (getdata json))]
+                 ;;   (set! (.-value ele) (if(empty? dt) eval dt))))]
+                 (let [dt (getdata json)]
+                 (r/render [tags-template dt] (.getElementById js/document "tagdiv"))))]
+    (when-not ( >  2 (.-length eval))
+      (http-get (str "http://localhost:8090/tag/search/" eval)
+                onresp))))
+
+(defn input [label type id]
+  (row label [:input.form-control {:type type :id id :on-change on-change}]))
+
+(defn tags-template [data]
+ [:datalist {:id "browsers"}
+   (for [d data] [:option {:value (.-tagname d)}])] 
+)
 
 (defn bookmark-template []
   [:div.form-group
    [:div (input "Title" "text" "title")]
    [:div  (input "URL" "text" "url")]
-   [:div (input "Tags" "text" "tags")]
+   [:div  [:div.col-md-2[:label "Tags"]]
+   [:input  {:id "tags" :list "browsers" :type "text" :on-change on-change}]
+   [:div#tagdiv tags-template]]
    [:div  (input "Description" "textarea" "desc")]])
 
 (defn getinputvalue[id]

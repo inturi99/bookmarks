@@ -24,7 +24,7 @@
 (def content-type  "application/json; charset=utf-8")
 
 (defn insert-tag [tag]
-  (db/create-tag tag))n
+  (db/create-tag tag))
 
 (defn search-tag [sstring]
   (db/search-tag {:tagname sstring}))
@@ -54,8 +54,7 @@
                d "description"
                ta "tag"} body]
           (rr/content-type
-           (rr/respon
-            se (assoc (insert-bookmark
+              (rr/response (assoc (insert-bookmark
                                 {:title t :url u
                                  :description d} ta)
                                :tag ta))

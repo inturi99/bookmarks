@@ -15,5 +15,5 @@
               bm (first (db/create-bookmark 
                   {:title r :url (str "www."r".com")
                   :description r}))]]
-    (db/create-bookmark-tag (:bookmarkid bm) (:tagid t))))
+    (db/create-bookmark-tag {:bookmarkid (:id bm) :tagid (:id t)})))
 
